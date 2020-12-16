@@ -22,6 +22,7 @@
     <script>
       var ACCNAME = "clickerone",
         APPNAME = "test";
+      const audioRing = new Audio("./ring.mp3");
 
       function log(str) {
         var log = $("#log").html();
@@ -71,7 +72,6 @@
         outboundCall = null,
         inboundCall = null,
         currentACDstatus = null;
-      console.log(voxAPI);
 
       voxAPI.addEventListener(VoxImplant.Events.SDKReady, onSdkReady);
       voxAPI.addEventListener(VoxImplant.Events.ConnectionEstablished, onConnectionEstablished);
@@ -139,6 +139,7 @@
       }
 
       function onCallConnected(e) {
+        audioRing.pause();
         log("CallConnected: " + currentCall.id());
         setACDstatus(VoxImplant.OperatorACDStatuses.InService);
         $("#controlButton").removeClass("btn-success").addClass("btn-danger").html("Disconnect");
@@ -183,6 +184,7 @@
 
       function onIncomingCall(e) {
         inboundCall = currentCall = e.call;
+        audioRing.play();
         currentCall.addEventListener(VoxImplant.CallEvents.Connected, onCallConnected);
         currentCall.addEventListener(VoxImplant.CallEvents.Disconnected, onCallDisconnected);
         currentCall.addEventListener(VoxImplant.CallEvents.Failed, onCallFailed);
