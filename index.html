@@ -20,8 +20,7 @@
     <!-- Latest compiled and minified VoxImplant Web SDK -->
     <script type="text/javascript" src="https://cdn.voximplant.com/edge/voximplant.min.js"></script>
     <script>
-      var ACCNAME = "clickerone",
-        APPNAME = "test";
+      const account = "test.clickerone.n4.voximplant.com";
       const audioRing = new Audio("./ring.mp3");
 
       function log(str) {
@@ -165,6 +164,7 @@
       }
 
       function onCallFailed(e) {
+        audioRing.pause();
         if (inboundCall != null) $("#inbound_call").slideUp();
         log("CallFailed: " + currentCall.id() + " code: " + e.code + " reason: " + e.reason);
       }
@@ -281,7 +281,7 @@
       $(document).ready(function () {
         $("#signin").submit(function (event) {
           if (!$("#signin div.alert").hasClass("hidden")) $("#signin div.alert").addClass("hidden");
-          var username = $("input[type=login]").val() + "@" + "test.clickerone.n4.voximplant.com",
+          var username = $("input[type=login]").val() + "@" + account,
             pwd = $("input[type=password]").val();
           log("Authorizing user " + username + " ...");
           voxAPI.login(username, pwd);
